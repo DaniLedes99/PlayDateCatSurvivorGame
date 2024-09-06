@@ -1,3 +1,5 @@
+-- bullet.lua
+
 local pd <const> = playdate
 local gfx <const> = pd.graphics
 
@@ -29,20 +31,18 @@ function Bullet:update()
         self.y = self.y + self.speed
     end
 
-
     local actualX, actualY, collisions, length = self:moveWithCollisions(self.x, self.y)
     if length > 0 then
-        for index, collision in ipairs(collisions) do
+        for _, collision in ipairs(collisions) do
             local collidedObject = collision['other']
-            if collidedObject:isa(TinyDog) or collidedObject:isa(BigDog) then
+            if collidedObject:isa(TinyDog) or collidedObject:isa(BigDog) or collidedObject:isa(Spider) then
                 collidedObject:remove()
-                self:remove()  -- Elimina la bala al colisionar
-                incrementScore()  -- Asegúrate de que esta función esté definida
-                setShakeAmount(5) -- Asegúrate de que esta función esté definida
+                self:remove()
+                incrementScore()
+                setShakeAmount(5)
             end
         end
     elseif self.x < 0 or self.x > 400 or self.y < 0 or self.y > 240 then
         self:remove()
     end
 end
-

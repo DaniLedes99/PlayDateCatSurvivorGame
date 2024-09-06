@@ -1,5 +1,6 @@
 import "tinydog"
 import "bigdog"
+import "spider"
 
 local pd <const> = playdate
 local gfx <const> = pd.graphics
@@ -24,12 +25,22 @@ function spawnEnemy()
     local spawnPosition = math.random(10, 230)
     
     -- Decidir aleatoriamente qué tipo de enemigo spawn
-    if math.random() < 0.5 then
-        BigDog(430, spawnPosition, 1)
-    else
+    local enemyType = math.random()
+    if enemyType < 0.33 then
+        -- Crear una instancia de BigDog y agregarla a la vista
+        local bigDog = BigDog(430, spawnPosition, 1)
+        bigDog:add()
+    elseif enemyType < 0.66 then
+        -- Crear una instancia de TinyDog y agregarla a la vista
         local tinyDog = TinyDog(430, spawnPosition, 1)
+        tinyDog:add()
+    else
+        -- Crear una instancia de Spider con la posición de inicio aleatoria
+        local spider = Spider(430, spawnPosition, 2, 50, 0.05)
+        spider:add()
     end
 end
+
 
 function stopSpawner()
     if spawnTimer then
