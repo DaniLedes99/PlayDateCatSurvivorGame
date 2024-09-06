@@ -1,31 +1,23 @@
 local pd <const> = playdate
 local gfx <const> = pd.graphics
 
-class('Spider').extends(gfx.sprite)
+class('Spider').extends(Enemy)
 
 function Spider:init(x, y, moveSpeed, amplitude, frequency)
-    -- Asegúrate de que todos los parámetros están definidos
+    
+    Enemy.init(self, x, y, moveSpeed)
+
+
     assert(amplitude and frequency, "amplitude and frequency must be provided")
     
     -- Cargar la imagen para el Spider
     self.image = gfx.image.new("images/enemy")
     self:setImage(self.image)
     
-    -- Configurar la posición y añadir el sprite
-    self:moveTo(x, y)
-    self:add()
-
-    -- Configurar el rectángulo de colisión
-    self:setCollideRect(0, 0, self:getSize())
-
-    -- Configurar velocidad de movimiento y parámetros de la curva
-    self.moveSpeed = moveSpeed
-    self.amplitude = amplitude  -- Altura máxima de la curva
-    self.frequency = frequency  -- Cuánto se repite la curva por unidad de distancia horizontal
-
-    -- Inicializar variables para el movimiento
-    self.startX = x
-    self.startY = y  -- Asegúrate de que startY esté correctamente inicializado
+    -- Configurar parámetros específicos
+    self.amplitude = amplitude
+    self.frequency = frequency
+    self.startY = y
     self.elapsedTime = 0
 end
 
@@ -44,8 +36,4 @@ function Spider:update()
     if self.x < 0 then
         resetGame()
     end
-end
-
-function Spider:collisionResponse()
-    return "overlap"
 end

@@ -12,10 +12,10 @@ function Bullet:init(x, y, direction, speed)
         gfx.drawCircleAtPoint(bulletSize, bulletSize, bulletSize)
     gfx.popContext()
     self:setImage(bulletImage)
-
+    
     self:setCollideRect(0, 0, self:getSize())
     self.speed = speed
-    self.direction = direction or "right"  -- Por defecto, la bala se mueve hacia la derecha
+    self.direction = direction or "right"
     self:moveTo(x, y)
     self:add()
 end
@@ -40,6 +40,7 @@ function Bullet:update()
                 self:remove()
                 incrementScore()
                 setShakeAmount(5)
+                break
             end
         end
     elseif self.x < 0 or self.x > 400 or self.y < 0 or self.y > 240 then

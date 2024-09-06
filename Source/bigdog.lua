@@ -1,29 +1,22 @@
 local pd <const> = playdate
 local gfx <const> = pd.graphics
 
-class('BigDog').extends(gfx.sprite)
+class('BigDog').extends(Enemy)
 
 function BigDog:init(x, y, moveSpeed)
+    
+    Enemy.init(self, x, y, moveSpeed)
+
     -- Cargar las imágenes para la animación del BigDog
     self.images = {
         gfx.image.new("images/bigdog1"),
         gfx.image.new("images/bigdog2"),
         gfx.image.new("images/bigdog3")
     }
-    
+
     -- Inicializar el índice de la imagen y establecer la primera imagen
     self.currentImageIndex = 1
     self:setImage(self.images[self.currentImageIndex])
-    
-    -- Configurar la posición y añadir el sprite
-    self:moveTo(x, y)
-    self:add()
-
-    -- Configurar el rectángulo de colisión
-    self:setCollideRect(0, 0, self:getSize())
-
-    -- Configurar velocidad de movimiento
-    self.moveSpeed = moveSpeed
 
     -- Inicializar el temporizador de animación
     self.animationDelay = 200
@@ -38,10 +31,6 @@ function BigDog:update()
     if self.x < 0 then
         resetGame()
     end
-end
-
-function BigDog:collisionResponse()
-    return "overlap"
 end
 
 function BigDog:startAnimationTimer()

@@ -3,9 +3,11 @@ import "CoreLibs/graphics"
 import "CoreLibs/sprites"
 import "CoreLibs/timer"
 import "player"
+import "enemy"
 import "enemySpawner"
 import "scoreDisplay"
 import "screenShake"
+import "enemySpawner"
 
 
 local pd <const> = playdate
@@ -13,7 +15,7 @@ local gfx <const> = pd.graphics
 
 local screenShakeSprite = ScreenShake()
 
-function resetGame()
+function Game()
     resetScore()
     clearEnemies()
     stopSpawner()
