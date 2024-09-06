@@ -19,7 +19,6 @@ function Bullet:init(x, y, direction, speed)
 end
 
 function Bullet:update()
-    -- Mueve la bala según su dirección
     if self.direction == "left" then
         self.x = self.x - self.speed
     elseif self.direction == "right" then
@@ -30,19 +29,20 @@ function Bullet:update()
         self.y = self.y + self.speed
     end
 
-    -- Manejo de colisiones y eliminación de la bala
+
     local actualX, actualY, collisions, length = self:moveWithCollisions(self.x, self.y)
     if length > 0 then
         for index, collision in ipairs(collisions) do
             local collidedObject = collision['other']
-            if collidedObject:isa(Enemy) then
+            if collidedObject:isa(TinyDog) or collidedObject:isa(BigDog) then
                 collidedObject:remove()
-                incrementScore()
-                setShakeAmount(5)
+                self:remove()  -- Elimina la bala al colisionar
+                incrementScore()  -- Asegúrate de que esta función esté definida
+                setShakeAmount(5) -- Asegúrate de que esta función esté definida
             end
         end
-        self:remove()
     elseif self.x < 0 or self.x > 400 or self.y < 0 or self.y > 240 then
         self:remove()
     end
 end
+
